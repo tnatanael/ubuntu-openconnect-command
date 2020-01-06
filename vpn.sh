@@ -6,9 +6,10 @@ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # VPN Variables
 IFACE="sslinterface"
-VPN_USER="[[your-username]]"
-VPN_HOST="[[vpn-host]]"
-VPN_PASS='[[your-password]]'
+VPN_USER="[[USER]]"
+VPN_HOST="[[HOST]]"
+VPN_PASS='[[PASS]]'
+VPN_GROUP="[[GROUP]]"
 PID="/var/run/openconnect.pid"
 TEMP_LOG="/tmp/status.txt"
 INFO="
@@ -25,7 +26,7 @@ if [ -f $PID ]
 		printf "\n\tOpenconnect is already running\n"
 		exit 1
 	else
-		echo ${VPN_PASS} | openconnect -b --user=${VPN_USER} --no-dtls ${VPN_HOST} --passwd-on-stdin > $TEMP_LOG 2>&1
+		echo ${VPN_PASS} | openconnect -b --user=${VPN_USER} --authgroup=${VPN_GROUP} --no-dtls ${VPN_HOST} --passwd-on-stdin > $TEMP_LOG 2>&1
 		if $(grep -i failed $TEMP_LOG)
 			then
 				printf "\n\tOpenconnect failed to start!\n"
